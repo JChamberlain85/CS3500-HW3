@@ -15,8 +15,8 @@ extern char* yytext;
 int yyerror(const char *p);
 %}
 
-/* -- TOKEN DEFINITIONS -- */
-/* Keywords */
+// -- TOKEN DEFINITIONS --
+// what tokens to expect from Flex
 %token K_IF 
 %token K_THEN 
 %token K_ELSE 
@@ -40,7 +40,6 @@ int yyerror(const char *p);
 
 %% /* -- GRAMMAR RULES -- */
 
-/* Bison starts parsing with the first rule. */
 StatementSequence
     : Statement
       { cout << "RULE: StatementSequence ::= Statement" << endl; }
@@ -119,7 +118,6 @@ Factor
 
 %% /* -- EPILOGUE -- */
 
-// Custom error function matching the assignment's output format
 int yyerror(const char *p)
 {
     cout << "ERROR: In line " << num_lines << " with token '" << yytext << "'" << endl;

@@ -14,20 +14,21 @@ void writeToken(const char* toktype);
 
 %}
 
-/* ------ OPTIONS ------- */
+/* ------- OPTIONS ------- */
 %option noyywrap
 WHITE [ \t]
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 ALPHANUM [a-zA-Z0-9]
 
-%% /* ----- REGEX ------ */
+%% /* ------ REGEX ------ */
 [ \t]	;
 \n	{ num_lines++; }
 %.*  ;
 ";" { writeToken("K_SC"); return K_SC; }
 "(" { writeToken("K_LPAREN"); return K_LPAREN; }
 ")" { writeToken("K_RPAREN"); return K_RPAREN; }
+
 "IF" { writeToken("K_IF"); return K_IF; }
 "THEN" { writeToken("K_THEN"); return K_THEN; }
 "ELSE" { writeToken("K_ELSE"); return K_ELSE; }
@@ -37,6 +38,7 @@ ALPHANUM [a-zA-Z0-9]
 "WRITE" { writeToken("K_WRITE"); return K_WRITE; }
 ":=" { writeToken("OP_ASSIGN"); return OP_ASSIGN; }
 "~" { writeToken("OP_NEG"); return OP_NEG; }
+
 "<"|">"|"="|"#" { writeToken("OP_RELATION"); return OP_RELATION; }
 "+"|"-"|"&"|"OR" { writeToken("OP_ADD"); return OP_ADD; }
 "*"|"/"|"AND" { writeToken("OP_MULT"); return OP_MULT; }
@@ -46,7 +48,7 @@ ALPHANUM [a-zA-Z0-9]
 \"[^\" \t\n]+\" { writeToken("T_STRING"); return T_STRING; }
 . {std::cout<<"Error: In line "<<num_lines<<" with token "<<"'"<<yytext<<"'"<<std::endl;} 
 
-%% /* -- EPILOGUE -------------------------------------- */
+%% /* --------------- EPILOGUE ----------------- */
 // Purpose: prints that a token was found
 void writeToken(const char* toktype)
 {
